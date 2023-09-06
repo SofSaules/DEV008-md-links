@@ -1,6 +1,9 @@
 {
   "name": "sofsaules-md-links",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "author": "Sofía Saulés",
+  "description": "Markdown links",
+  "main": ":./cli.js",
   "engines": {
     "node": ">=16.x"
   },
@@ -18,9 +21,22 @@
     "node": "^20.5.0",
     "yargs": "^17.7.2"
   },
-  "author": "Sofía Saulés",
-  "description": "Markdown links",
+
   "bin": {
-    "md-links": "./cli.js"
-  }
+    "md-links": "cli.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SofSaules/DEV008-md-links.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SofSaules/DEV008-md-links/issues"
+  },
+  "homepage": "https://github.com/SofSaules/DEV008-md-links#readme"
 }
