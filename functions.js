@@ -28,15 +28,18 @@ function isDirectory(route){
     return fs.statSync(route).isDirectory();
 }
 
+
 // --- fs.readdirSync() Lee el directorio buscando archivos MD --- 
 function findFile(route) {
     const mdFiles = [];
-    if(fs.statSync(route).isDirectory()) { 
-        const directory = fs.readdirSync(route); // lee el contenido del directorio 
+    if(fs.statSync(route).isDirectory()) {
+        const directory = fs.readdirSync(route); // lee el contenido del directorio
         directory.forEach((file) => {
             const completePath = path.join(route, file); // join() construye la ruta completa del archivo o subdirectorio
+           //console.log(completePath)
             if(fs.statSync(completePath).isDirectory()){
                 const subdirectory = findFile(completePath); // llama recursivamente la función en el subdirectorio
+                //console.log(fs.statSync(completePath).isDirectory())
                 mdFiles.push(...subdirectory);
             } else if (path.extname(completePath) === '.md') {
                 mdFiles.push(completePath)
@@ -51,8 +54,9 @@ function findFile(route) {
     return mdFiles
 }
 
-const findFileResult = findFile('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links')
+const findFileResult = findFile ('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links')
 //console.log(findFileResult)
+
 
 
 // --- path.extname() Indica qué extensión es. ---
@@ -64,6 +68,7 @@ function extensionCheck(route) {
 function getFileContent(route){
      return fs.readFileSync(route, {encoding: 'utf8'})  
 }
+//console.log(getFileContent('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test\\simulation.md'))
 
 // --- Extraer links del archivo MD --- 
 // Método match() busca coincidencias de una cadena de texto y una expresión regular. --- 
@@ -73,26 +78,21 @@ function getLinks(content){
      return links;
       };
 
-      const trueLinks = getLinks(getFileContent('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\README.md'));
-      //console.log("Links:", trueLinks);
-      
+      const trueLinks = getLinks(getFileContent('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test\\simulation.md'));
+      //console.log(trueLinks)
 
 // --- Dar formato links --- 
-
-/* // ejemplo 
-const regex = /\((https?:\/\/[^\)]+)\)/;
-const link = '[Empezando con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/getting-started)';
-const result = link.match(regex)
-console.log(result)
-*/
-
 function formatLinks(links, route){
     const eachLink = links.map((link) => {
         const regexHttp = /\((https?:\/\/[^\)]+)\)/; // Expresión regular para identificar https
         const http = link.match(regexHttp)
         const regexText = /\[([^\[\]]+)\]/;  // Expresión regular para identificar solo texto
-        const text = link.match(regexText)
-        
+        let text = link.match(regexText)
+        // text = null
+        if (!text){
+             text = ['Text not found'];
+        }
+
         const result = {
             href: http[1], // Segunda posición. Checar ejemplo.
             text: text[1],
@@ -103,11 +103,12 @@ function formatLinks(links, route){
     return eachLink
 }
 
-const eachLinkResult = formatLinks(trueLinks, 'C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\README.md')
+const eachLinkResult = formatLinks(trueLinks, 'C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test\\simulation.md')
 //console.log(eachLinkResult)
 
 
 // --- Validar links con axios ---
+// se le hace un mock y de el mock un test asincrono 
 
 function validateLinks(links){
  const arrayLinks = links.map((link) => {  // método map itera sobre cada objeto del arreglo (link de links)
@@ -119,7 +120,7 @@ function validateLinks(links){
   })
   .catch((error) => {
     link.status = 404;
-    link.ok = "error";
+    link.ok = 'error';
       return link;
   })
  })
@@ -127,7 +128,7 @@ function validateLinks(links){
 }
 
 /*
-validateLinks(eachLinkResult, 'C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\README.md')
+validateLinks(eachLinkResult, 'C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test\\simulation.md')
   .then(arrayLinksResult => {
     console.log(arrayLinksResult);
   })
@@ -135,6 +136,42 @@ validateLinks(eachLinkResult, 'C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4
     console.error(error);
   });
 */
+
+
+// --- Función para determinar la cantidad de links ---
+function getLinksCount(arrayLinks){
+    return arrayLinks.length;
+}
+
+const count = getLinksCount(eachLinkResult);
+//console.log(count);
+
+
+// --- Función para determinar la cantidad de links únicos ---
+function getUniqueLinksCount(arrayLinks){
+    const uniqueCount = new Set(arrayLinks.map(link => link.href)).size; // set permite almacenar valores únicos de cualquier tipo
+    return uniqueCount;
+};
+
+const uniqueCount = getUniqueLinksCount(eachLinkResult); // Llama a la función con 'eachLinkResult' como argumento
+//console.log(uniqueCount); 
+
+
+
+// --- Función para determinar la cantidad de links rotos ---
+function getBrokenLinksCount(arrayLinks){
+    let count = 0;
+for(const link of arrayLinks){
+    if(link.ok !== 'OK'){
+        count++;
+    }
+    return count;
+}
+   
+}
+
+const brokenCount = getBrokenLinksCount(eachLinkResult); // Llama a la función con 'eachLinkResult' como argumento
+//console.log( brokenCount); 
 
 
 
@@ -150,7 +187,10 @@ module.exports = {
     getFileContent,
     getLinks,
     formatLinks,
-    validateLinks
+    validateLinks,
+    getLinksCount,
+    getUniqueLinksCount,
+    getBrokenLinksCount
 }
 
 
@@ -158,3 +198,7 @@ module.exports = {
 // --- Recursiva --- 
 //leer documentacion map
 //promise.all 
+// Pasos a seguir:
+// --Validate (Objeto general)
+// --Stats ()
+// --mezcla de los dos
