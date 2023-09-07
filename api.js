@@ -70,6 +70,7 @@ function mdLinks(path, options) {
     })
 }
 
+/*
 mdLinks('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test\\simulation.md', {validate: true, stats: true })
  .then((response) => {
     console.log(response)
@@ -78,7 +79,7 @@ mdLinks('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\tes
     console.log('error')
     console.log(error)
  })
-
+*/
 
 // Resolve es como el return, termina la promesa. 
 

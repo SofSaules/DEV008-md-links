@@ -149,12 +149,15 @@ const count = getLinksCount(eachLinkResult);
 
 // --- Función para determinar la cantidad de links únicos ---
 function getUniqueLinksCount(arrayLinks){
-    const uniqueCount = new Set(arrayLinks.map(link => link.href)).size; // set permite almacenar valores únicos de cualquier tipo
+    //console.log(arrayLinks)
+    let valores = Object.values(arrayLinks)
+    //console.log(valores)
+    const uniqueCount = new Set(valores.map(link => link.href)).size; // set permite almacenar valores únicos de cualquier tipo
     return uniqueCount;
 };
 
 const uniqueCount = getUniqueLinksCount(eachLinkResult); // Llama a la función con 'eachLinkResult' como argumento
-//console.log(uniqueCount); 
+//console.log("total link", uniqueCount); 
 
 
 

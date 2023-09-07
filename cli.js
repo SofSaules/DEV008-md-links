@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
 const { mdLinks } = require('./api');
-const { getLinksCount, getUniqueLinksCount, getBrokenLinksCount  } = require('./functions')
 
 console.log('¡Bienvenido a esta biblioteca!');
 
@@ -21,7 +20,7 @@ const route = options._[0];
 
 
 if (route) {
-    
+     //Estableer las opciones en false por defecto
     const mdLinksOptions = {
         validate: options.validate || false,
         stats: options.stats || false,
@@ -30,19 +29,16 @@ if (route) {
     mdLinks(route, mdLinksOptions)
         .then(links => {
 
-            
+            console.log(links)
             if (mdLinksOptions.stats) {
-                const totalStats = `Total: ${getLinksCount(links)}`;
-                const uniqueStats = `Unique: ${getUniqueLinksCount(links)}`;
+                const totalStats = `Total: ${links.total}`;
+                const uniqueStats = `Unique: ${links.unique}`;
+                const brokenStats = `Broken: ${links.broken}`;
 
                 console.log(totalStats);
                 console.log(uniqueStats);
+                console.log(brokenStats);
 
-                if (mdLinksOptions.validate) {
-                    const brokenLinksCount = getBrokenLinksCount(links);
-                    const brokenStats = `Broken: ${brokenLinksCount}`;
-                    console.log(brokenStats);
-                }
 
             } else if (mdLinksOptions.validate) {
                 links.forEach(link => {
