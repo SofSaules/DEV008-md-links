@@ -6,7 +6,7 @@ console.log('¡Bienvenido a esta biblioteca!');
 
 
 const options = yargs(process.argv.slice(2))
-.usage('md-links ./path/to/file.md -v -s')
+.usage('md-links "./path/to/file.md" -v -s')
 .command('$0', 'Default command')
 .option("v", {alias:"validate", describe: "Verifica si el link funciona", type: "boolean", demandOption: false })
 .option("s", {alias:"stats", describe: "Imprime las estadisticas de los links encontrados en cada archivo .md", type: "boolean", demandOption: false })

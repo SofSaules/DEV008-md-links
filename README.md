@@ -40,8 +40,9 @@ El módulo ofrece dos procesos: validar y/u obtener estadísticas de los enlaces
 
 ##### Argumentos
 
-* `path`: Se ingresa la ruta **absoluta** o **relativa** al **archivo** o **directorio**. 
-**IMPORTANTE: para poder leer el path es necesario que se cambie la dirección del slash: \ => /  o en su defecto agregarle otro: \ => \\** 
+* `path`: Se ingresa la ruta **absoluta** o **relativa** al **archivo** o **directorio**.
+**IMPORTANTE: para poder leer el path es necesario que se introduzca con comillas dobles** 
+
 * `options`: Se ingresan **únicamente** las siguiente opciones:
   - `-v o --validate`: Determina si se desea validar via HTTP los links encontrados.
   - `-s o --stats`: Muestra cuantos links hay, incluyendo los links únicos y los links inválidos. 
