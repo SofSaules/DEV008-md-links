@@ -36,10 +36,8 @@ function findFile(route) {
         const directory = fs.readdirSync(route); // lee el contenido del directorio
         directory.forEach((file) => {
             const completePath = path.join(route, file); // join() construye la ruta completa del archivo o subdirectorio
-           //console.log(completePath)
             if(fs.statSync(completePath).isDirectory()){
                 const subdirectory = findFile(completePath); // llama recursivamente la función en el subdirectorio
-                //console.log(fs.statSync(completePath).isDirectory())
                 mdFiles.push(...subdirectory);
             } else if (path.extname(completePath) === '.md') {
                 mdFiles.push(completePath)

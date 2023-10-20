@@ -44,13 +44,15 @@ function mdLinks(path, options) {
             if(isDirectory){
                 const findMd = functions.findFile(path)
                 //resolve(findMd)
-                const allLinks = [];
+                console.log("uno", findMd)
+                let allLinks = [];
                 findMd.forEach((file) => { 
                     const content = functions.getFileContent(file);
                     const links = functions.getLinks(content)
                     const formatedLinks = functions.formatLinks(links, file);
-                    
-                    allLinks.push(formatedLinks)
+                      
+                    allLinks = allLinks.concat(formatedLinks)
+
                 });
 
                 if(options.stats){
@@ -70,8 +72,8 @@ function mdLinks(path, options) {
     })
 }
 
-/*
-mdLinks('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test\\simulation.md', {validate: true, stats: true })
+
+mdLinks('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\test', {validate: true, stats: false })
  .then((response) => {
     console.log(response)
  })
@@ -79,7 +81,7 @@ mdLinks('C:\\Users\\sofsa\\Desktop\\LABORATORIA\\PROYECTO4\\DEV008-md-links\\tes
     console.log('error')
     console.log(error)
  })
-*/
+
 
 // Resolve es como el return, termina la promesa. 
 

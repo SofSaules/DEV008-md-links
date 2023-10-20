@@ -36,7 +36,7 @@ Para la instalación de la biblioteca se deberá ejecutar el siguiente comando:
 ## 4. Uso
 El módulo ofrece dos procesos: validar y/u obtener estadísticas de los enlaces. 
 
-#### `md-links <path-to-file> [options]`
+#### `md-links "path-to-file" -options`
 
 ##### Argumentos
 
